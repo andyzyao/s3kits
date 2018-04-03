@@ -16,7 +16,6 @@ std::string CreateSignature(
     assert(HMAC(EVP_sha1(), secret_access_key.data(), secret_access_key.size(),
                 reinterpret_cast<const unsigned char*>(raw.data()), raw.size(), md, &md_len) != NULL);
     std::string mac(reinterpret_cast<const char*>(md), static_cast<size_t>(md_len));
-
     return Base64Encode(mac);
 }
 

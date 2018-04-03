@@ -13,7 +13,7 @@ std::string Base64Encode(const std::string& str) {
   result.reserve((str.size() + 2) / 3 * 4);
 
   for (std::size_t i = 0; i <= (str.size() - 3); i += 3) {
-    unsigned int data = (str[i] << 16) | (str[i+1] << 8) | (str[i+2]);
+    unsigned int data = ((unsigned char)str[i] << 16) | ((unsigned char)str[i+1] << 8) | ((unsigned char)str[i+2]);
     result += base64_index_table[(data & 0b111111000000000000000000) >> 18];
     result += base64_index_table[(data & 0b000000111111000000000000) >> 12];
     result += base64_index_table[(data & 0b000000000000111111000000) >> 6];
@@ -23,13 +23,13 @@ std::string Base64Encode(const std::string& str) {
   std::size_t remainder = str.size() % 3;
   if (remainder == 0) {
   } else if (remainder == 1) {
-    unsigned int data = (str[str.size() - 1] << 16);
+    unsigned int data = ((unsigned char)str[str.size() - 1] << 16);
     result += base64_index_table[(data & 0b111111000000000000000000) >> 18];
     result += base64_index_table[(data & 0b000000111111000000000000) >> 12];
     result += '=';
     result += '=';
   } else if (remainder == 2) {
-    unsigned int data = (str[str.size() - 2] << 16) | (str[str.size() - 1] << 8);	  
+    unsigned int data = ((unsigned char)str[str.size() - 2] << 16) | ((unsigned char)str[str.size() - 1] << 8);
     result += base64_index_table[(data & 0b111111000000000000000000) >> 18];
     result += base64_index_table[(data & 0b000000111111000000000000) >> 12];
     result += base64_index_table[(data & 0b000000000000111111000000) >> 6];
